@@ -70,7 +70,7 @@
 
 
 survSuperLearner <- function(time, event, X, newX, new.times, event.SL.library, cens.SL.library, id = NULL, verbose = FALSE, control = list(), cvControl = list(), obsWeights = NULL)  {
-  
+
   # Check to see if required packages are installed
   packages <- c("survival", "mgcv", "randomForestSRC", "glmnet", "SuperLearner",
                 "nnls", "Rsolnp")
@@ -79,7 +79,7 @@ survSuperLearner <- function(time, event, X, newX, new.times, event.SL.library, 
       stop(paste0("Package '", pkg, "' is required by survSuperLearner."))
     }
   }
-  
+
   time_start <- proc.time()
   call <- match.call(expand.dots = TRUE)
   if (!is.null(dim(time)) && ncol(time) > 0) stop("time must be an (n x 1)  numeric vector.")
@@ -751,6 +751,8 @@ survSuperLearner.CV.control <- function (V = 10L, stratifyCV = TRUE, shuffle = T
     if(!is.null(obs.cens.vals.old) & !is.null(obs.event.vals.old)) {
       cens.delta <- max(abs(obs.cens.vals - obs.cens.vals.old))
       event.delta <- max(abs(obs.event.vals - obs.event.vals.old))
+      ################# ADDED
+      print(c(obs.cens.vals, obs.cens.vals.old, obs.event.vals, obs.event.vals.old))
       if(cens.delta + event.delta < 1e-5) {
         if(verbose) message("Converged in ", iter, " iterations.")
         break
