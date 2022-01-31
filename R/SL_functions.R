@@ -35,6 +35,7 @@
 #' \item{times}{Timing data.}
 #' @references van der Laan, M. J., Polley, E. C., & Hubbard, A. E. (2007). Super learner. \emph{Statistical Applications in Genetics and Molecular Biology}, 6(1).
 #' @references van der Laan, M. J., and Rose, S. (2011). \emph{Targeted Learning: Causal inference for observational and experimental data}. Springer-Verlag New York.
+#' @export
 #' @examples
 # set.seed(92)
 #' n <- 100
@@ -751,8 +752,6 @@ survSuperLearner.CV.control <- function (V = 10L, stratifyCV = TRUE, shuffle = T
     if(!is.null(obs.cens.vals.old) & !is.null(obs.event.vals.old)) {
       cens.delta <- max(abs(obs.cens.vals - obs.cens.vals.old))
       event.delta <- max(abs(obs.event.vals - obs.event.vals.old))
-      ################# ADDED
-      print(c(obs.cens.vals, obs.cens.vals.old, obs.event.vals, obs.event.vals.old))
       if(cens.delta + event.delta < 1e-5) {
         if(verbose) message("Converged in ", iter, " iterations.")
         break

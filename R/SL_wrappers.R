@@ -196,12 +196,13 @@ predict.survSL.coxph <- function(object, newX, new.times, ...) {
 #' @param ... Additional arguments passed on to \code{\link[randomForestSRC]{rfsrc}}.
 #' @return \item{pred}{Matrix of predictions, with the same number of rows as \code{newX} and number of columns equal to the length of \code{new.times}. Rows index new observations, and columns index new times at which the survival was computed.}
 #' \item{fit}{One-element list including \code{object}, the fitted \code{\link[randomForestSRC]{rfsrc}}. object.}
+#' @importFrom survival Surv
 #' @references Ishwaran, H., Kogalur, U. B., Blackstone, E. H., & Lauer, M. S. (2008). Random survival forests. \emph{The Annals of Applied Statistics}, 2(3), 841-860.
 
 survSL.rfsrc <- function(time, event, X, newX, new.times, obsWeights, id, ...) {
   data <- data.frame(time, event)
   data <- cbind(data, X)
-  fit.rfsrc <- randomForestSRC::rfsrc(survival::Surv(time, event) ~ ., data=data, importance = FALSE, case.wt = obsWeights, ...)
+  fit.rfsrc <- randomForestSRC::rfsrc(Surv(time, event) ~ ., data=data, importance = FALSE, case.wt = obsWeights, ...)
   survs <- predict(fit.rfsrc, newdata=newX, importance='none')$survival
   pred <- t(sapply(1:nrow(survs), function(i) {
     stats::approx(c(0,fit.rfsrc$time.interest), c(1,survs[i,]), method='constant', xout = new.times, rule = 2)$y

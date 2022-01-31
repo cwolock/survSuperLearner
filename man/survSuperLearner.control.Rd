@@ -10,7 +10,8 @@ survSuperLearner.control(
   max.SL.iter = 20,
   event.t.grid,
   cens.t.grid,
-  saveFitLibrary = TRUE
+  saveFitLibrary = TRUE,
+  ...
 )
 }
 \arguments{
